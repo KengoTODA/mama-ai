@@ -3,7 +3,6 @@ name = "mama-ai"
 version = "0.1.0"
 authors = ["Kengo TODA <skypencil@gmail.com>"]
 license = "Apache-2.0"
-license-file = "LICENSE"
 
 [dependencies]
 lettre = "0.7"
