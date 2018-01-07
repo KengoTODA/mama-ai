@@ -10,6 +10,13 @@ This app uses two IFTTT applets:
 This Heroku app is based on [heroku-buildpack-rust](https://github.com/emk/heroku-buildpack-rust).
 Its responsibility is parse twitter text to pick air quality data, and filter data which has better air quality. So we can receive email only when air quality is bad (equal to or more than 100).
 
+## How to install client to Raspberry Pi 3
+
+1. run `scp -r ./client pi@raspberrypi.local:/home/pi` to copy `client` directory to target machine
+2. ssh to target machine
+3. run `sudo cp client/mama-ai.service /etc/systemd/system` to register service
+4. run `sudo systemctl enable mama-ai` to enable service
+
 ## Copyright
 
     Copyright 2017 Kengo TODA
