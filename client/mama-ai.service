@@ -1,0 +1,13 @@
+[Unit]
+Description=Daemon for mama-ai client
+
+[Service]
+ExecStart=/home/pi/client/main.py
+Restart=always
+Type=forking
+PIDFile=/home/pi/client/mama-ai.pid
+User=pi
+Group=gpio
+
+[Install]
+WantedBy=multi-user.target
