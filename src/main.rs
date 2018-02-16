@@ -16,6 +16,8 @@ use hyper::net::HttpsConnector;
 use hyper::header::Connection;
 use hyper_native_tls::NativeTlsClient;
 
+mod registry;
+
 // Serves a string to the user.  Try accessing "/".
 fn hello(_: &mut Request) -> IronResult<Response> {
     let resp = Response::with((status::Ok, "Hello world!"));
