@@ -18,17 +18,16 @@ use hyper_native_tls::NativeTlsClient;
 
 mod registry;
 
-// Serves a string to the user.  Try accessing "/".
 fn hello(_: &mut Request) -> IronResult<Response> {
-    let resp = Response::with((status::Ok, "Hello world!"));
+    let r = registry::connect();
+    let resp = Response::with((status::Ok, format!("Latest data: {:?}", r.select().unwrap().unwrap())));
     Ok(resp)
 }
 
-// Serves a customized string to the user.  Try accessing "/world".
 fn parse(req: &mut Request) -> IronResult<Response> {
     let mut buffer = String::new();
     req.body.read_to_string(&mut buffer).unwrap();
-    let quality = parse_air_quality(&buffer).unwrap();
+    let quality: i32 = buffer.parse().unwrap();
     if quality >= 100 {
       try_submit(quality);
     }
@@ -36,31 +35,6 @@ fn parse(req: &mut Request) -> IronResult<Response> {
     Ok(resp)
 }
 
-//  https://twitter.com/CGShanghaiAir
-fn parse_air_quality(text: &str) -> Option<i32> {
-  let taken = text.split("; ").nth(3);
-  match taken {
-    Some(s) => match s.parse::<i32>() {
-      Ok(n) => Some(n),
-      _ => None
-    },
-    None => None
-  }
-}
-
-#[test]
-fn test_parse_air_quality() {
-  assert_eq!(
-    parse_air_quality("11-05-2017 07:00; PM2.5; 26.0; 80; Moderate (at 24-hour exposure at this level)"),
-    Some(80));
-}
-
-#[test]
-fn test_parse_no_data() {
-  assert_eq!(
-    parse_air_quality("11-04-2017 03:00; PM2.5; No Data"),
-    None);
-}
 
 fn try_submit(quality: i32) {
   match env::var("IFTTT_KEY") {

@@ -44,7 +44,7 @@ impl AqiRegistry {
     Ok(())
   }
 
-  fn select(&self) -> io::Result<Option<Aqi>> {
+  pub fn select(&self) -> io::Result<Option<Aqi>> {
     for row in self.conn.query("SELECT value, time FROM aqi ORDER BY id DESC LIMIT 1", &[])?.iter() {
       let value: i16 = row.get(0);
       let time: NaiveDateTime = row.get(1);
@@ -60,6 +60,12 @@ impl AqiRegistry {
 fn connect_db() -> std::option::Option<postgres::Connection> {
   let url = env::var_os("DATABASE_URL").unwrap_or(OsString::from("postgres://postgres@localhost:5432"));
   postgres::Connection::connect(url.into_string().unwrap(), postgres::TlsMode::None).ok()
+}
+
+pub fn connect() -> AqiRegistry {
+  AqiRegistry {
+    conn: connect_db().unwrap()
+  }
 }
 
 // To test, run following command in advance
