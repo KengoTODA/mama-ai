@@ -1,14 +1,29 @@
 [![Build Status](https://travis-ci.org/KengoTODA/mama-ai.svg?branch=master)](https://travis-ci.org/KengoTODA/mama-ai)
 
-## How this app works
+This application has three parts:
 
-This app uses two IFTTT applets:
+1. Store Shanghai's AQI every 10 mins
+2. Report bad AQI by email, and
+3. Display latest AQI by web page
 
-1. Twitter -&gt; Webhooks, to post [@CGShanghaiAir](https://twitter.com/CGShanghaiAir)'s data to Heroku app
-2. Webhooks -&gt; Email, to send email to owner
+# Architecture
+## 1. Store Shanghai's AQI every 10 mins
 
-This Heroku app is based on [heroku-buildpack-rust](https://github.com/emk/heroku-buildpack-rust).
-Its responsibility is parse twitter text to pick air quality data, and filter data which has better air quality. So we can receive email only when air quality is bad (equal to or more than 100).
+This is handled by the [scheduled task](https://devcenter.heroku.com/articles/scheduler) that runs `curl "http://api.waqi.info/feed/shanghai/?token=$AQI_TOKEN" | jq -r '.data.aqi' | curl -X POST  --data @- https://$HEROKU_URL/`. Then invoked WebAPI will store AQI to postgres database.
+
+To invoke `jq` command, this application requires  [heroku-buildpack-jq](https://github.com/chrismytton/heroku-buildpack-jq) buildpack.
+To serve application server written in Rust, this application requires [heroku-buildpack-rust](https://github.com/emk/heroku-buildpack-rust) buildpack.
+
+## 2. Report bad AQI by email, and
+
+And if AQI is bad, this app calls an IFTTT applet, to send email to owner.
+This email realizes push-notification even when user cannot use push-notification supported by iOS/Android.
+
+## 3. Display latest AQI by web page
+
+For admin, this application provides several pages:
+
+1. `/` to display latest AQI
 
 ## How to install client to Raspberry Pi 3
 
@@ -19,7 +34,7 @@ Its responsibility is parse twitter text to pick air quality data, and filter da
 
 ## Copyright
 
-    Copyright 2017 Kengo TODA
+    Copyright 2017-2018 Kengo TODA
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
