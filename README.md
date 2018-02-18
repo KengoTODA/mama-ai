@@ -9,7 +9,7 @@ This application has three parts:
 # Architecture
 ## 1. Store Shanghai's AQI every 10 mins
 
-This is handled by the [scheduled task](https://devcenter.heroku.com/articles/scheduler) that runs `curl "http://api.waqi.info/feed/shanghai/?token=$AQI_TOKEN" | jq -r '.data.aqi' | curl -X POST  --data @- https://$HEROKU_URL/`. Then invoked WebAPI will store AQI to postgres database.
+This is handled by the [scheduled task](https://devcenter.heroku.com/articles/scheduler) that runs `curl "http://api.waqi.info/feed/shanghai/?token=$AQI_TOKEN" | jq -r '.data.aqi' | curl -X POST --data @- https://$HEROKU_URL/aqi/`. Then invoked WebAPI will store AQI to postgres database.
 
 To invoke `jq` command, this application requires  [heroku-buildpack-jq](https://github.com/chrismytton/heroku-buildpack-jq) buildpack.
 To serve application server written in Rust, this application requires [heroku-buildpack-rust](https://github.com/emk/heroku-buildpack-rust) buildpack.

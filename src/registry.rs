@@ -1,20 +1,13 @@
-extern crate chrono;
 extern crate postgres;
 
 use std;
 use std::env;
 use std::ffi::OsString;
 use std::io;
-use registry::chrono::NaiveDateTime;
+use ::value::Aqi;
 
 pub struct AqiRegistry {
   conn: postgres::Connection,
-}
-
-#[derive(Debug)]
-pub struct Aqi {
-  value: i16,
-  time: chrono::NaiveDateTime,
 }
 
 impl AqiRegistry {
@@ -47,7 +40,7 @@ impl AqiRegistry {
   pub fn select(&self) -> io::Result<Option<Aqi>> {
     for row in self.conn.query("SELECT value, time FROM aqi ORDER BY id DESC LIMIT 1", &[])?.iter() {
       let value: i16 = row.get(0);
-      let time: NaiveDateTime = row.get(1);
+      let time: ::chrono::NaiveDateTime = row.get(1);
       return Ok(Some(Aqi {
         value,
         time,
