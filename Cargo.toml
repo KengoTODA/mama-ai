@@ -13,3 +13,5 @@ native-tls = "0.1"
 hyper-native-tls = "*"
 log = "0.3"
 env_logger = "0.3"
+postgres = { version = "0.15", features = ["with-chrono"]}
+chrono = "0.4"

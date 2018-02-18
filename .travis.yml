@@ -2,6 +2,13 @@ language: rust
 rust:
   - stable
   - beta
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+script:
+  # to run tests in serial, because they depends on the same table in postgres
+  - cargo test -- --test-threads=1
 matrix:
   allow_failures:
     - rust: beta
