@@ -27,16 +27,18 @@ fn hello(_: &mut Request) -> IronResult<Response> {
 fn parse(req: &mut Request) -> IronResult<Response> {
     let mut buffer = String::new();
     req.body.read_to_string(&mut buffer).unwrap();
-    let quality: i32 = buffer.parse().unwrap();
+    let quality: i16 = buffer.parse().unwrap();
     if quality >= 100 {
       try_submit(quality);
     }
+    let r = registry::connect();
+    r.insert(quality);
     let resp = Response::with((status::Ok, format!("Air quality is {}!", quality)));
     Ok(resp)
 }
 
 
-fn try_submit(quality: i32) {
+fn try_submit(quality: i16) {
   match env::var("IFTTT_KEY") {
     Ok(key) => {
       let url = format!("https://maker.ifttt.com/trigger/mama_ai_air_quality/with/key/{}?value1={}", key, quality);

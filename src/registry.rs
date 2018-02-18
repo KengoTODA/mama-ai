@@ -27,7 +27,7 @@ impl AqiRegistry {
     Ok(())
   }
 
-  fn insert(&self, aqi: i16) -> io::Result<()> {
+  pub fn insert(&self, aqi: i16) -> io::Result<()> {
     self.conn.execute("INSERT INTO aqi (value) VALUES ($1)", &[&aqi])?;
     Ok(())
   }
