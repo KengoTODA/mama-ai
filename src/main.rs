@@ -32,7 +32,7 @@ fn parse(req: &mut Request) -> IronResult<Response> {
       try_submit(quality);
     }
     let r = registry::connect();
-    r.insert(quality);
+    r.insert(quality).unwrap();
     let resp = Response::with((status::Ok, format!("Air quality is {}!", quality)));
     Ok(resp)
 }
