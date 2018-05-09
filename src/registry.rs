@@ -29,7 +29,7 @@ impl AqiRegistry {
         Ok(())
     }
 
-    fn prune(&self) -> io::Result<u64> {
+    pub fn prune(&self) -> io::Result<u64> {
         let rows = self.conn.query("SELECT MAX(id) FROM aqi", &[])?;
         let max_id: i32 = rows.get(0).get(0);
         let deleted: u64 = self.conn

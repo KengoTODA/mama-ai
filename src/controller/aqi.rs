@@ -7,6 +7,8 @@ use iron::status;
 use std::env;
 use std::io::Read;
 
+use registry;
+
 pub fn parse(req: &mut Request) -> IronResult<Response> {
     let mut buffer = String::new();
     req.body.read_to_string(&mut buffer).unwrap();
@@ -17,6 +19,16 @@ pub fn parse(req: &mut Request) -> IronResult<Response> {
     let r = ::registry::connect();
     r.insert(quality).unwrap();
     let resp = Response::with((status::Ok, format!("Air quality is {}!", quality)));
+    Ok(resp)
+}
+
+pub fn prune(_req: &mut Request) -> IronResult<Response> {
+    let r = registry::connect();
+    let deleted = r.prune();
+    let resp = Response::with((
+        status::Ok,
+        format!("Deleted {:?} records successfully", deleted.unwrap()),
+    ));
     Ok(resp)
 }
 
