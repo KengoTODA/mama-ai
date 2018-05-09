@@ -14,7 +14,7 @@ This is handled by the [scheduled task](https://devcenter.heroku.com/articles/sc
 To invoke `jq` command, this application requires  [heroku-buildpack-jq](https://github.com/chrismytton/heroku-buildpack-jq) buildpack.
 To serve application server written in Rust, this application requires [heroku-buildpack-rust](https://github.com/emk/heroku-buildpack-rust) buildpack.
 
-## 2. Report bad AQI by email, and
+## 2. Report bad AQI by email
 
 And if AQI is bad, this app calls an IFTTT applet, to send email to owner.
 This email realizes push-notification even when user cannot use push-notification supported by iOS/Android.
