@@ -6,8 +6,8 @@ license = "Apache-2.0"
 
 [dependencies]
 lettre = "0.7"
-iron = "0.5.1"
-router = "0.5.1"
+iron = "0.6.1"
+router = "0.6.0"
 hyper = "0.10.13"
 native-tls = "0.1"
 hyper-native-tls = "*"
