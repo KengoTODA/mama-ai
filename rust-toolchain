@@ -1,3 +1,1 @@
-[toolchain]
-channel = "1.39"
-components = [ "rustfmt" ]
+1.39
