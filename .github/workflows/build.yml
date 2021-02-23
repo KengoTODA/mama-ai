@@ -27,4 +27,4 @@ jobs:
         with:
           command: test
           # to run tests in serial, because they depends on the same table in postgres
-          args: --test-threads=1
+          args: -- --test-threads=1
