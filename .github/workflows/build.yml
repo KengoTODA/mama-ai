@@ -19,6 +19,7 @@ jobs:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: test
     steps:
+      - run: openssl version
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
