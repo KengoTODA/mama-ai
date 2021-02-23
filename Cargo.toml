@@ -5,7 +5,7 @@ authors = ["Kengo TODA <skypencil@gmail.com>"]
 license = "Apache-2.0"
 
 [dependencies]
-lettre = "0.7"
+lettre = "0.8.4"
 iron = "0.6.1"
 router = "0.6.0"
 hyper = "0.10.13"
